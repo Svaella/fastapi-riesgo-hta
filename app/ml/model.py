@@ -1,6 +1,7 @@
 import joblib
 import pandas as pd
 import numpy as np
+import gdown
 from pathlib import Path
 from app.core.config import settings
 from app.models.patient import PatientInput
@@ -13,10 +14,8 @@ def descargar_desde_drive(file_id, output_path):
     if not output_path.exists():
         print(f"Descargando modelo desde Google Drive a {output_path}")
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        url = f"https://drive.google.com/uc?export=download&id={file_id}"
-        response = requests.get(url)
-        with open(output_path, 'wb') as f:
-            f.write(response.content)
+        url = f"https://drive.google.com/uc?id={file_id}"
+        gdown.download(url, str(output_path), quiet=False)
         print(f"✅ Descargado: {output_path} ({output_path.stat().st_size / (1024**2):.2f} MB)")
 
 
