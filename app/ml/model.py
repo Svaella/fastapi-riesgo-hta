@@ -12,11 +12,13 @@ def descargar_desde_drive(file_id, output_path):
     output_path = Path(output_path)
     if not output_path.exists():
         print(f"Descargando modelo desde Google Drive a {output_path}")
-        output_path.parent.mkdir(parents=True, exist_ok=True)  # 🔧 CREA LA CARPETA SI NO EXISTE
+        output_path.parent.mkdir(parents=True, exist_ok=True)
         url = f"https://drive.google.com/uc?export=download&id={file_id}"
         response = requests.get(url)
         with open(output_path, 'wb') as f:
             f.write(response.content)
+        print(f"✅ Descargado: {output_path} ({output_path.stat().st_size / (1024**2):.2f} MB)")
+
 
 
 def load_model():
