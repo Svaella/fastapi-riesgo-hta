@@ -9,8 +9,10 @@ import requests
 
 
 def descargar_desde_drive(file_id, output_path):
-    if not os.path.exists(output_path):
-        print(f"Descargando {output_path} desde Google Drive...")
+    output_path = Path(output_path)
+    if not output_path.exists():
+        print(f"Descargando modelo desde Google Drive a {output_path}")
+        output_path.parent.mkdir(parents=True, exist_ok=True)  # 🔧 CREA LA CARPETA SI NO EXISTE
         url = f"https://drive.google.com/uc?export=download&id={file_id}"
         response = requests.get(url)
         with open(output_path, 'wb') as f:
