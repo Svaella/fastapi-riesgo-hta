@@ -113,27 +113,35 @@ def preprocess_input(patient: PatientInput):
     return df, bmi
 
 def predict_hypertension(patient: PatientInput):
-    model = load_model()
-    expected_features = load_model_features()
-    
-    df, bmi = preprocess_input(patient)
+    try:
+        model_path = Path(settings.MODEL_PATH)
+        
+        # 🔄 Descargar el modelo si no existe
+        descargar_desde_drive("1fX1U9rYfkBl0mWWbfSlvHv7oATpGDvvH", model_path)
+        
+        # ✅ Cargar el modelo SOLO durante la predicción
+        model = joblib.load(model_path)
+        
+        # 📄 Descargar y cargar columnas
+        features_path = model_path.parent / "model_columns.joblib"
+        descargar_desde_drive("1wYmXfXB35ixMoWIUVTvisCXujjYi8lfF", features_path)
+        expected_features = joblib.load(features_path)
 
-    for col in expected_features:
-        if col not in df.columns:
-            df[col] = 0  
+        # 🧼 Preprocesar
+        df, bmi = preprocess_input(patient)
+        for col in expected_features:
+            if col not in df.columns:
+                df[col] = 0
+        df = df[expected_features]
 
-    df = df[expected_features]
+        prediction = bool(model.predict(df)[0])
+        probabilities = model.predict_proba(df)[0]
+        probability = round(probabilities[1], 4) if prediction else round(probabilities[0], 4)
 
-    prediction = bool(model.predict(df)[0])
-    probabilities = model.predict_proba(df)[0]
-    probability = round(probabilities[1], 4) if prediction else round(probabilities[0], 4)
-    #bmi_category = get_bmi_category(bmi)
-    #recommendations = get_recommendations(patient, prediction, bmi)
-    
-    return {
-        "riesgo_hipertension": prediction,
-        "probabilidad": probability,
-        #"imc": bmi,
-        #"categoria_imc": bmi_category,
-        #"recomendaciones": recommendations
-    }
+        return {
+            "riesgo_hipertension": prediction,
+            "probabilidad": probability
+        }
+
+    except Exception as e:
+        raise Exception(f"Error al realizar la predicción: {e}")
