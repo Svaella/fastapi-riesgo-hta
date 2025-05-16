@@ -4,10 +4,23 @@ import numpy as np
 from pathlib import Path
 from app.core.config import settings
 from app.models.patient import PatientInput
+import os
+import requests
+
+
+def descargar_desde_drive(file_id, output_path):
+    if not os.path.exists(output_path):
+        print(f"Descargando {output_path} desde Google Drive...")
+        url = f"https://drive.google.com/uc?export=download&id={file_id}"
+        response = requests.get(url)
+        with open(output_path, 'wb') as f:
+            f.write(response.content)
+
 
 def load_model():
     try:
         model_path = Path(settings.MODEL_PATH)
+        descargar_desde_drive("1fX1U9rYfkBl0mWWbfSlvHv7oATpGDvvH", model_path)  # <-- coloca el ID correcto aquí
         model = joblib.load(model_path)
         return model
     except Exception as e:
@@ -17,6 +30,7 @@ def load_model():
 def load_model_features():
     try:
         features_path = Path(settings.MODEL_PATH).parent / "model_columns.joblib"
+        descargar_desde_drive("1wYmXfXB35ixMoWIUVTvisCXujjYi8lfF", features_path)  # <-- ID del segundo archivo
         features = joblib.load(features_path)
         return features
     except Exception as e:

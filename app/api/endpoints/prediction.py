@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException
 from app.models.patient import PatientInput, PredictionResult
 from app.ml.model import predict_hypertension
 
+
 router = APIRouter()
 
 @router.post("/predict", response_model=PredictionResult)

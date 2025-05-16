@@ -2,3 +2,6 @@ __pycache__/
 *.pyc
 .idea/
 venv/
+Fastapi.zip
+model/random_forest_model.joblib
+model/model_columns.joblib
