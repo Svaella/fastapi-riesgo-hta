@@ -32,7 +32,7 @@ def load_model():
 
 def load_model_features():
     try:
-        features_path = Path(settings.MODEL_PATH).parent / "model_columns.joblib"
+        features_path = Path(settings.MODEL_PATH)
         descargar_desde_drive("1wYmXfXB35ixMoWIUVTvisCXujjYi8lfF", features_path)  # <-- ID del segundo archivo
         features = joblib.load(features_path)
         return features
