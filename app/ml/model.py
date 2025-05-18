@@ -1,4 +1,4 @@
-import joblib
+
 import pandas as pd
 from pathlib import Path
 from app.core.config import settings
@@ -8,12 +8,14 @@ from app.models.patient import PatientInput
 model_path = settings.MODEL_PATH / "rf_model.joblib"
 preprocessor_path = settings.MODEL_PATH / "preprocessor.joblib"
 
-# Cargar modelo y preprocesador entrenados
-model = joblib.load(model_path)
-preprocessor = joblib.load(preprocessor_path)
+
 
 def predict_hypertension(patient: PatientInput):
+    import joblib
     input_data = pd.DataFrame([patient.dict()])
+    # Cargar modelo y preprocesador entrenados
+    model = joblib.load(model_path)
+    preprocessor = joblib.load(preprocessor_path)
 
     print("🔍 INPUT DATA COLUMNS:", input_data.columns.tolist())  # 👈 Añade este print
     print("🔍 INPUT DATA SAMPLE:\n", input_data)
