@@ -1,7 +1,7 @@
 from pydantic_settings import BaseSettings
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
