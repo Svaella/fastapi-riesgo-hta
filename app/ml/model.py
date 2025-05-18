@@ -26,6 +26,9 @@ def predict_hypertension(patient: PatientInput):
     # 📥 Descargar si no existe localmente
     descargar_desde_drive("I1yhLc3gmiqawy-OmRxF774K9rZoPj72fg", model_path)
     descargar_desde_drive("11-k2AdEJ5T_qBFfDK8yq7rz-x3iv25gO", preprocessor_path)
+    if model_path.stat().st_size < 100000:
+        raise Exception(f"❗ Modelo descargado es muy pequeño ({model_path.stat().st_size} bytes). Posible descarga fallida.")
+
 
     # 📊 Preparar datos
     input_data = pd.DataFrame([patient.dict()])
