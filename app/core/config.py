@@ -1,7 +1,7 @@
 from pydantic_settings import BaseSettings
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent  # ✅ /app
+BASE_DIR = Path(__file__).resolve().parent.parent.parent  # ✅ /app
 MODEL_DIR = BASE_DIR / "model"  # ✅ /app/model
 
 class Settings(BaseSettings):
