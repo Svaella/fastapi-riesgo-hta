@@ -27,6 +27,9 @@ def predict_hypertension(patient: PatientInput):
     descargar_desde_drive("11-k2AdEJ5T_qBFfDK8yq7rz-x3iv25gO", preprocessor_path)
     if model_path.stat().st_size < 100000:
         raise Exception(f"❗ Modelo descargado es muy pequeño ({model_path.stat().st_size} bytes). Posible descarga fallida.")
+    print(f"📦 Tamaño modelo: {model_path.stat().st_size} bytes")
+    print(f"📦 Tamaño preprocesador: {preprocessor_path.stat().st_size} bytes")
+
 
 
     # 📊 Preparar datos
