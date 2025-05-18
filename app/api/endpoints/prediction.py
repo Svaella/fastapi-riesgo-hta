@@ -7,6 +7,7 @@ router = APIRouter()
 
 @router.post("/predict", response_model=PredictionResult)
 async def predict(patient: PatientInput):
+    print("📥 Datos recibidos:", patient.dict())
     """
     Predice el riesgo de hipertensión arterial basado en los datos del paciente.
     

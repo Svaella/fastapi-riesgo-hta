@@ -1,55 +1,16 @@
 from pydantic import BaseModel, Field, field_validator
 from enum import Enum
 
-class Gender(str, Enum):
-    MALE = "male"
-    FEMALE = "female"
-
-class SmokingStatus(str, Enum):
-    NEVER = "never"
-    FORMER = "former"
-    CURRENT = "current"
-
-class PhysicalActivityLevel(str, Enum):
-    LOW = "low"
-    MODERATE = "moderate"
-    HIGH = "high"
-
-class MedicalHistory(str, Enum):
-    YES = "yes"
-    NO = "no"
-
 class PatientInput(BaseModel):
-    sexo: Gender
-    edad: int = Field(..., ge=0, le=100)
-    peso: float = Field(..., gt=0, le=300)  # en kg
-    altura: float = Field(..., gt=0, le=300)  # en centímetros
-    fumador: SmokingStatus
-    actividadFisica: PhysicalActivityLevel
-    sueno: float = Field(..., ge=0, le=24)  # horas de sueño
-    antecedentesHipertension: MedicalHistory
-    
-    @field_validator('sueno')
-    def redondear_sueno(cls, v):
-        return round(v)
-    
-    class Config:
-        schema_extra = {
-            "example": {
-                "sexo": "male", # hombre
-                "edad": 45,
-                "peso": 80.5,   # en kg
-                "altura": 175,  # en centímetros
-                "fumador": "never", # nunca
-                "actividadFisica": "moderate",  #moderado
-                "sueno": 7,
-                "antecedentesHipertension": "no"
-            }
-        }
+    Gender: str
+    Age: float = Field(..., ge=0, le=100)
+    BMI: float = Field(..., ge=0, le=100)
+    Physical_Activity_Level: str
+    Sleep_Duration: float = Field(..., ge=0, le=24)
+    Smoking_Status: str
+    Family_History: str
+    Stress_Level: int = Field(..., ge=1, le=9)
 
 class PredictionResult(BaseModel):
-    riesgo_hipertension: bool
+    riesgo: str
     probabilidad: float
-    #imc: float
-    #categoria_imc: str
-    #recomendaciones: list[str]
