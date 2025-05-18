@@ -44,7 +44,9 @@ def predict_hypertension(patient: PatientInput):
         processed_data = preprocessor.transform(input_data)
         prob = model.predict_proba(processed_data)[0][1]
     except Exception as e:
+        import traceback
         print("❌ ERROR en preprocesamiento:", str(e))
+        traceback.print_exc()  # 👈 esto muestra detalles de error en consola
         raise
 
     # 📈 Clasificación de riesgo
