@@ -1,7 +1,8 @@
 from pydantic_settings import BaseSettings
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent  # 👉 apunta a FASTAPI/
+MODEL_PATH = BASE_DIR / "model"  # 👉 FASTAPI/model
 
 class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
